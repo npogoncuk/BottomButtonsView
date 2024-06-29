@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.annotation.ColorInt
 import com.nazar.customview.databinding.BottomButtonsBinding
 
 class BottomButtonsView(
@@ -16,8 +17,8 @@ class BottomButtonsView(
 
     private val binding: BottomButtonsBinding
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
-    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, R.style.MyBottomButtonsStyle)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, R.attr.bottomButtonsStyle)
     constructor(context: Context) : this(context, null)
 
     init {
@@ -36,8 +37,8 @@ class BottomButtonsView(
         val negativeButtonText: String
         val positiveButtonText: String
 
-        val negativeButtonColor: Int
-        val positiveButtonColor: Int
+        @ColorInt val negativeButtonColor: Int
+        @ColorInt val positiveButtonColor: Int
 
         val inProgress: Boolean
 

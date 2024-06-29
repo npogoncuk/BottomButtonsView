@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="materialButtonStyle">@style/MyButtonStyle</item>
+
+        <item name="bottomButtonsStyle">@style/DefaultBottomButtonsStyle</item>
     </style>
 
     <style name="Theme.CustomView" parent="Base.Theme.CustomView" />
@@ -11,5 +13,16 @@
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="ConcreteBottomButtonsStyle">
+        <item name="positiveButtonBackgroundColor">#00ff00</item>
+    </style>
     
+    <style name="DefaultBottomButtonsStyle">
+        <item name="positiveButtonBackgroundColor">#F03636</item>
+    </style>
+
+    <style name="MyBottomButtonsStyle">
+        <item name="positiveButtonBackgroundColor">#ff8800</item>
+    </style>
 </resources>
