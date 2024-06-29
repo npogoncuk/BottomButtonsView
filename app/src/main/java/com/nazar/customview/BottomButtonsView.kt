@@ -8,6 +8,13 @@ import android.view.LayoutInflater
 import androidx.annotation.ColorInt
 import com.nazar.customview.databinding.BottomButtonsBinding
 
+enum class ButtonType {
+    NEGATIVE, POSITIVE
+}
+
+typealias BottomButtonsClickListener = (ButtonType) -> Unit
+
+
 class BottomButtonsView(
     context: Context,
     attrs: AttributeSet?,
@@ -16,6 +23,7 @@ class BottomButtonsView(
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val binding: BottomButtonsBinding
+    private var clickListener: BottomButtonsClickListener? = null
 
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, R.style.MyBottomButtonsStyle)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, R.attr.bottomButtonsStyle)
@@ -27,6 +35,7 @@ class BottomButtonsView(
         binding = BottomButtonsBinding.bind(this)
 
         initializeAttributes(attrs, defStyleAttr, defStyleRes)
+        initializeClickListeners()
     }
 
     private fun initializeAttributes(attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) {
@@ -71,5 +80,19 @@ class BottomButtonsView(
             negativeButton.visibility = VISIBLE
             positiveButton.visibility = VISIBLE
         }
+    }
+
+    private fun initializeClickListeners() {
+        with(binding) {
+            negativeButton.setOnClickListener {
+                clickListener?.invoke(ButtonType.NEGATIVE)
+            }
+            positiveButton.setOnClickListener {
+                clickListener?.invoke(ButtonType.POSITIVE)
+            }
+        }
+    }
+    fun setClickListener(listener: BottomButtonsClickListener) {
+        clickListener = listener
     }
 }
