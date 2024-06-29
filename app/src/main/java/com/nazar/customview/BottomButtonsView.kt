@@ -25,6 +25,25 @@ class BottomButtonsView(
     private val binding: BottomButtonsBinding
     private var clickListener: BottomButtonsClickListener? = null
 
+    var inProgress: Boolean = false
+        set(value) {
+            field = value
+
+            with(binding) {
+                if (value) {
+                    progressBar.visibility = VISIBLE
+                    negativeButton.visibility = GONE
+                    positiveButton.visibility = GONE
+                } else {
+                    progressBar.visibility = GONE
+                    negativeButton.visibility = VISIBLE
+                    positiveButton.visibility = VISIBLE
+                }
+            }
+        }
+
+
+
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(context, attrs, defStyleAttr, R.style.MyBottomButtonsStyle)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, R.attr.bottomButtonsStyle)
     constructor(context: Context) : this(context, null)
@@ -60,26 +79,14 @@ class BottomButtonsView(
         }
 
         with(binding) {
-            negativeButton.text = negativeButtonText
-            positiveButton.text = positiveButtonText
+            setNegativeButtonText(negativeButtonText)
+            setPositiveButtonText(positiveButtonText)
             negativeButton.setBackgroundColor(negativeButtonColor)
             positiveButton.setBackgroundColor(positiveButtonColor)
-            setVisibility(inProgress)
+            this@BottomButtonsView.inProgress = inProgress
         }
 
         typedArray.recycle()
-    }
-
-    private fun BottomButtonsBinding.setVisibility(inProgress: Boolean) {
-        if (inProgress) {
-            progressBar.visibility = VISIBLE
-            negativeButton.visibility = GONE
-            positiveButton.visibility = GONE
-        } else {
-            progressBar.visibility = GONE
-            negativeButton.visibility = VISIBLE
-            positiveButton.visibility = VISIBLE
-        }
     }
 
     private fun initializeClickListeners() {
@@ -92,7 +99,16 @@ class BottomButtonsView(
             }
         }
     }
+
     fun setClickListener(listener: BottomButtonsClickListener) {
         clickListener = listener
+    }
+
+    fun setNegativeButtonText(text: String?) {
+        binding.negativeButton.text = text ?: "Cancel"
+    }
+
+    fun setPositiveButtonText(text: String?) {
+        binding.positiveButton.text = text ?: "Ok"
     }
 }

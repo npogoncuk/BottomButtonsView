@@ -1,8 +1,12 @@
 package com.nazar.customview
 
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +17,10 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private val cancelToken = Any()
+    private val handler = Handler(Looper.getMainLooper())
+
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,12 +34,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomButtons.setClickListener { buttonType ->
             when (buttonType) {
+
                 ButtonType.NEGATIVE -> {
-                    Toast.makeText(this, "Negative button clicked", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Negative Button Pressed", Toast.LENGTH_SHORT).show()
                 }
+
                 ButtonType.POSITIVE -> {
-                    Toast.makeText(this, "Positive button clicked", Toast.LENGTH_SHORT).show()
+                    binding.bottomButtons.inProgress = true
+                    handler.postDelayed({
+                        binding.bottomButtons.inProgress = false
+                        binding.bottomButtons.setPositiveButtonText("Was Clicked")
+                        Toast.makeText(this, "Action completed", Toast.LENGTH_SHORT).show()
+                    }, cancelToken, 2000L)
                 }
+
             }
         }
     }
@@ -39,5 +55,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
+        handler.removeCallbacksAndMessages(cancelToken)
     }
 }
